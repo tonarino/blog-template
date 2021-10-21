@@ -1,0 +1,10 @@
+.layout img {
+  margin: auto;
+  display: block;
+  height: auto;
+}
+
+.layout h1,
+.layout h2 {
+  text-align: center;
+}

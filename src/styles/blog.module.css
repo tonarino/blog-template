@@ -1,0 +1,195 @@
+.blogContainer {
+  padding: 0 5%;
+}
+
+.blogIndex h1 {
+  margin-bottom: 50px;
+}
+
+.escapePreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+  padding: 10px;
+  height: 24px;
+  border-radius: 5px;
+  transition: all 0.2s ease 0s;
+}
+
+.escapePreview:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.titleContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.noPosts {
+  text-align: center;
+}
+
+.postPreview {
+  padding-bottom: 4em;
+  max-width: 680px;
+  margin: 10px auto;
+}
+
+.postPreview h3,
+.post h1,
+.post h2,
+.post h3 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.post h1 {
+  font-size: 1.7rem;
+  line-height: 2.3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.post h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: #333333;
+}
+
+.post h3 {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+}
+
+.post :global(h2) {
+  margin: 3rem 0 1.5rem 0;
+}
+
+.post :global(h3) {
+  margin: 1.5rem 0;
+}
+
+.post .postMedia {
+  margin: 2rem 0rem 0rem 0rem;
+  max-width: 100%;
+  display: block;
+}
+
+.post :global(img) {
+  object-fit: contain;
+}
+
+.post :global(.asset-wrapper img) {
+  margin: 0;
+}
+
+.post :global(.tweet) {
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.post :global(.callout) {
+  padding: 16px 16px 16px 16px;
+  display: flex;
+  width: 100%;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  background: #f1f1f1;
+}
+
+.post :global(.callout .text) {
+  margin-left: 8px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #888;
+}
+
+.post div,
+.post p,
+.post h1,
+.post h2,
+.post h3 {
+  white-space: pre-line;
+}
+
+.postPreview :global(.posted) {
+  margin-bottom: 0.5em;
+}
+
+.postContent {
+  margin-top: 2em;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 2rem;
+  color: #333;
+}
+
+.post {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.post :global(.Japanese) {
+  font-family: var(--font-japanese);
+}
+
+.post :global(hr) {
+  margin-bottom: 2em;
+}
+
+.post :global(a + p) {
+  margin-top: 0;
+}
+
+.coverImage {
+  width: 100%;
+}
+
+.title,
+.subtitle {
+  font-family: var(--font-mono);
+  font-style: normal;
+}
+
+.title {
+  font-size: 1.75rem;
+  color: var(--title);
+  text-align: left;
+  padding-top: 2rem;
+  padding-bottom: 0.6rem;
+  padding-right: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+
+  color: var(--subtitle);
+  padding-bottom: 1.2em;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.4rem;
+    line-height: 1.75rem;
+  }
+
+  .subtitle {
+    line-height: 1.5rem;
+  }
+
+  .postPreview {
+    padding-bottom: 3em;
+  }
+}

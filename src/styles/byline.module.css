@@ -1,0 +1,57 @@
+.byline {
+  display: flex;
+  align-items: center;
+}
+
+.bylinetext {
+  padding-left: 0.5em;
+}
+
+.profileimage img {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+}
+.profileimage img:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  height: 2.5rem;
+  width: 2.5rem;
+  background: lightgray;
+}
+
+.authors {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.9rem;
+
+  color: #a4a4a4;
+
+  padding-bottom: 0.2em;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.posted {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.8rem;
+
+  color: #7b7b7b;
+}
+
+.draftBadge {
+  border-radius: 17px;
+  background-color: #333333;
+  color: white;
+  font-size: 0.9rem;
+  padding: 8px 13px;
+  margin-right: 6px;
+}
