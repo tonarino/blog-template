@@ -1,0 +1,79 @@
+name: Deploy
+
+on:
+  repository_dispatch:
+    types: [staging, prod]
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: '"staging" or "prod"'
+        required: true
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Notify of build start
+        id: slack-start
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          channel-id: 'XXXXXX'  # Slack channel id to post message
+          slack-message: ${{ format('starting build {0} (<https://github.com/{1}/actions/runs/{2})|*build log*>)', github.run_number, github.repository, github.run_id)}}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+
+      - name: Setup FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v1
+
+      - name: Cache yarn packages
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Cache nextjs build and node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            .next/cache
+            node_modules
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+
+      - name: Cache media
+        uses: actions/cache@v2
+        with:
+          path: |
+            public/images
+          key: media-${{ github.run_number }}
+          restore-keys: |
+            media-
+
+      - name: Install Firebase
+        run: |
+          yarn global add firebase-tools
+
+      - name: Build and deploy
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          NEXT_TELEMETRY_DISABLED: "1"
+          STAGE: ${{ github.event.action }}
+        run: |
+          yarn
+          yarn "deploy:$STAGE"
+
+      - name: Send GitHub Action trigger data to Slack workflow
+        if: ${{ always() }}
+        id: slack-end
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          channel-id: 'XXXXXX'  # Slack channel id to post message
+          slack-message: ${{ format('{0} (<https://github.com/{1}/actions/runs/{2})|*build log*>)', job.status == 'success' && 'blog deployed!' || format('blog not deployed ({0})', job.status), github.repository, github.run_id) }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
