@@ -1,0 +1,29 @@
+# dependencies
+/node_modules
+*/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# firebase
+/.firebase/
+firebase-debug.log
+.firebaserc
+
+# misc
+.DS_Store
+.env
+.vscode/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# automatically generated content
+.blog_index_data
+public/index.xml
+public/images
