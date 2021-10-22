@@ -116,7 +116,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
         const mediaBlock = getMediaBlockFile(block)
         const imagePath = getMediaBlockFileName(block)
         const last_caption_text = mediaBlock.caption?.at(-1)?.plain_text
-        const widthOverride = last_caption_text.match(/\d+(%|px|vw|vh|vmin|vmax)/g) ? last_caption_text : null
+        const widthOverride = last_caption_text?.match(/\d+(%|px|vw|vh|vmin|vmax)/g) ? last_caption_text : null
 
         if (block.type === "image" && imagePath) {
           var image = null
