@@ -27,6 +27,7 @@ module.exports = {
     authorColors: {},
 
     // Used when a user account is disabled/missing to override the name.
+    // The key is the user's UUID, and the value is their desired display name.
     // ex. '{ "1d6bfff-ffff-ffff-ffff-ffffffffffff": "Jake McGinty" }
     authorNameOverrides: {}
 }

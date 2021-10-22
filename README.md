@@ -1,19 +1,16 @@
 # tonari blog
 
-This is tonari's blog, run with next.js and backed by Notion via their API. Articles are written in the form of pages
-in a Notion database, and this codebase then fetches and coverts those pages into static content that is
-deployed to a Firebase static site.
+This is tonari's blog, a static site generated with next.js and using Notion as the source of articles.
 
-The code here is an unbranded version of our blog, but is not a turn-key solution for a new blog. There's a lot of
-hardcoded stuff in here (like the Japanese-English language support and GoatCounter metrics) that you'll need
-to modify to your own needs. We hope it serves as a good starting-point for others, though, and would also be
-welcome to the idea of others turning it into a more generic configurable blog system.
+Articles are written in the form of pages in a Notion database, and this codebase then fetches them via their public API and coverts those pages into static content that is deployed to a Firebase static site.
+
+This repository is an unbranded version of our blog, presented as-is for others to modify as they please. There's a lot of hardcoded stuff in here (like the Japanese-English language support and GoatCounter metrics) that you'll need to modify to your own needs. We hope it serves as a good starting-point for others, though, and would also be welcome to the idea of others turning it into a more generic configurable blog system.
 
 # Getting started
 
 ## 1. Duplicate the sample database
 
-* Go to [the same database Notion page](https://jakebot.notion.site/jakebot/Blog-Example-92b8d335abda424eb5baf96e4a5208a4) and click "Duplicate" on the top right, copying it into your workspace.
+* Go to [the sample database Notion page](https://jakebot.notion.site/jakebot/Blog-Example-92b8d335abda424eb5baf96e4a5208a4) and click "Duplicate" on the top right, copying it into your workspace.
 * In your duplicated page, get your new database's ID by hovering over the database title ("Posts"), clicking on "..." -> "Open as page".
 
     The new URL will look like `https://www.notion.so/yourname/[DATABASE_ID]?v=[VIEW_ID]`.
@@ -23,7 +20,7 @@ welcome to the idea of others turning it into a more generic configurable blog s
 ## 2. Create a new API "integration"
 
 * Go to [My Integrations](https://www.notion.so/my-integrations) on Notion and make a new internal integration.
-* Make a new `.env` file with your integration key:
+* Copy `.env.example` to `.env` and fill in your integration key:
     ```bash
     NOTION_API_KEY=[secret_YOURAPIKEY]
     ```
