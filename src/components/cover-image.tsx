@@ -2,7 +2,6 @@ import React from 'react'
 import { getImageFileName } from 'src/lib/image-helpers'
 import { BlogEntry } from 'src/lib/notion'
 
-
 type Props = {
   post: BlogEntry;
 }
