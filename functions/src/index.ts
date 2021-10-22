@@ -4,6 +4,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import { verify, deploy } from '../utilities/slack'
 
+const firebaseRegion = functions.config().firebase.region || 'asia-northeast1'
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const app = express()
@@ -37,5 +38,5 @@ app.post('/', urlencodedParser, async (request: any, response: any) => {
 })
 
 export const onSlackCommand = functions
-  .region('asia-northeast1')
+  .region(firebaseRegion)
   .https.onRequest(app)
