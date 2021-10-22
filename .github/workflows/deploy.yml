@@ -9,6 +9,9 @@ on:
         description: '"staging" or "prod"'
         required: true
 
+env:
+  SLACK_CHANNEL_ID: 'XXXXXXX' # The Slack channel ID you want updates posted to.
+
 jobs:
   deploy:
     name: Build and Deploy
@@ -21,7 +24,7 @@ jobs:
         id: slack-start
         uses: slackapi/slack-github-action@v1.14.0
         with:
-          channel-id: 'XXXXXX'  # Slack channel id to post message
+          channel-id: ${{ env.SLACK_CHANNEL_ID }}
           slack-message: ${{ format('starting build {0} (<https://github.com/{1}/actions/runs/{2})|*build log*>)', github.run_number, github.repository, github.run_id)}}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -73,7 +76,7 @@ jobs:
         id: slack-end
         uses: slackapi/slack-github-action@v1.14.0
         with:
-          channel-id: 'XXXXXX'  # Slack channel id to post message
+          channel-id: ${{ env.SLACK_CHANNEL_ID }}
           slack-message: ${{ format('{0} (<https://github.com/{1}/actions/runs/{2})|*build log*>)', job.status == 'success' && 'blog deployed!' || format('blog not deployed ({0})', job.status), github.repository, github.run_id) }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
