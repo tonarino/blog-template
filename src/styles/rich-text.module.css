@@ -1,0 +1,66 @@
+.bgspan {
+    border-radius: 6px;
+    padding: 2px 5px;
+    color: white;
+}
+
+.bgspan.mentioned {
+    background-color: #f5f5f5;
+    color: black;
+}
+
+.color_gray {
+    color: var(--gray);
+}
+.color_brown {
+    color: var(--brown);
+}
+.color_orange {
+    color: var(--orange);
+}
+.color_yellow {
+    color: var(--yellow);
+}
+.color_green {
+    color: var(--green);
+}
+.color_blue {
+    color: var(--blue);
+}
+.color_purple {
+    color: var(--purple);
+}
+.color_pink {
+    color: var(--pink);
+}
+.color_red {
+    color: var(--red);
+}
+
+.color_gray_background {
+    background-color: var(--gray);
+}
+.color_brown_background {
+    background-color: var(--brown);
+}
+.color_orange_background {
+    background-color: var(--orange);
+}
+.color_yellow_background {
+    background-color: var(--yellow);
+}
+.color_green_background {
+    background-color: var(--green);
+}
+.color_blue_background {
+    background-color: var(--blue);
+}
+.color_purple_background {
+    background-color: var(--purple);
+}
+.color_pink_background {
+    background-color: var(--pink);
+}
+.color_red_background {
+    background-color: var(--red);
+}

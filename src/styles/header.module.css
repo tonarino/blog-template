@@ -1,0 +1,64 @@
+.header {
+  width: 680px;
+  margin: 0 auto;
+  padding-top: 0.2rem;
+  text-align: center;
+  font-family: Roboto Mono;
+}
+
+@media (max-width: 600px) {
+  .header {
+    width: auto;
+  }
+
+  .header .blogLogo {
+    width: 5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .topContainer {
+    padding: 3% 5%;
+  }
+}
+
+.topContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.language {
+  border: 1px solid #aaa;
+  color: #999;
+  padding: 0.4rem 0.8rem;
+  margin-left: auto;
+}
+
+.language.jp {
+  font-family: var(--font-sans);
+}
+
+.language.en {
+  font-family: var(--font-japanese);
+}
+
+.language:hover {
+  border: 1px solid #1e68e6;
+  padding: 0.4rem 0.8rem;
+}
+
+.tonariLogo {
+  width: 2.3rem;
+}
+
+.blogLogo {
+  width: 11rem;
+  padding-bottom: 3em;
+  padding-top: 3em;
+}
+
+.blogLogoCompact {
+  margin-top: 0.27rem;
+  height: 2.3rem;
+  padding-left: 1rem;
+}

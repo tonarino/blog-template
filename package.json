@@ -1,0 +1,39 @@
+{
+  "name": "notion-blog",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && yarn build:rss",
+    "build:rss": "ts-node --project tsconfig.json -r dotenv/config src/lib/build-rss.ts",
+    "export:prod": "APP_ENV=prod yarn build && next export",
+    "export:staging": "APP_ENV=staging yarn build && next export",
+    "deploy:prod": "yarn export:prod && firebase deploy --only hosting",
+    "deploy:staging": "yarn export:staging && firebase deploy -P staging --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,sass}\" --ignore-path .gitignore"
+  },
+  "pre-commit": "lint-staged",
+  "dependencies": {
+    "@notionhq/client": "^0.3.3",
+    "@zeit/react-jsx-parser": "^2.0.0",
+    "github-slugger": "^1.4",
+    "highlight.js": "^11.2",
+    "next": "^11",
+    "nprogress": "^0.2.0",
+    "react": "^17",
+    "react-dom": "^17",
+    "sharp": "^0.29"
+  },
+  "devDependencies": {
+    "@types/node": "^16",
+    "@types/react": "^17",
+    "dotenv": "^10",
+    "feed": "^4.2.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "lint-staged": "^11",
+    "prettier": "^2.2",
+    "shell-quote": "^1.7.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4"
+  }
+}
