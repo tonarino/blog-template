@@ -10,7 +10,6 @@
 # firebase
 /.firebase/
 firebase-debug.log
-.firebaserc
 
 # misc
 .DS_Store
