@@ -4,7 +4,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import { verify, deploy } from '../utilities/slack'
 
-const firebaseRegion = functions.config().firebase.region || 'asia-northeast1'
+const firebaseRegion = functions.config().deploy?.region || 'asia-northeast1'
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const app = express()

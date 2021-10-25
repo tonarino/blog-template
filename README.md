@@ -61,7 +61,7 @@ To deploy the functions, set the applicable secrets:
 
 ```bash
 firebase functions:config:set \
-    firebase.region=asia-northeast-1 \
+    deploy.region=asia-northeast1 \
     github.username=mygithub \
     github.repository=mygithub/blog \
     github.access_token=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
