@@ -18,7 +18,7 @@
     "@zeit/react-jsx-parser": "^2.0.0",
     "github-slugger": "^1.4",
     "highlight.js": "^11.2",
-    "next": "^11",
+    "next": "^12",
     "nprogress": "^0.2.0",
     "react": "^17",
     "react-dom": "^17",
