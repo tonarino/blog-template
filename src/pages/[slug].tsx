@@ -171,7 +171,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
                 max-width: 100%;
                 width: ${widthOverride || '100%'};
               }
-              img, video {
+              figure > :global(img), :global(video) {
                 display: block;
                 width: 100%;
                 border: none;
