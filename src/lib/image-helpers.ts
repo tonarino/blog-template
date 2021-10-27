@@ -49,7 +49,7 @@ export async function fetchImage(fs, url: string, id: string): Promise<string> {
 
     // Transcode and optimize if possible
     if (/^.*\.(png|jpe?g)$/.test(fileName)) {
-      sharp(body)
+      const webpPromise = sharp(body)
         .rotate()
         .resize({
           width: 1500,
@@ -61,7 +61,7 @@ export async function fetchImage(fs, url: string, id: string): Promise<string> {
           quality: 80,
         })
         .toFile(`${filePath}.optimized.webp`)
-      sharp(body)
+      const jpegPromise = sharp(body)
         .rotate()
         .resize({
           width: 1500,
@@ -74,9 +74,10 @@ export async function fetchImage(fs, url: string, id: string): Promise<string> {
           progressive: true,
         })
         .toFile(`${filePath}.optimized.jpg`)
+      await Promise.all([webpPromise, jpegPromise])
     } else if (/^.*\.mp4$/.test(fileName)) {
       const thumbnail = await generateThumbnail(filePath, id)
-      sharp(thumbnail)
+      await sharp(thumbnail)
         .rotate()
         .resize({
           width: 1500,
