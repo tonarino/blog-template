@@ -1,6 +1,10 @@
-# tonari blog
+# tonari's Notion-backed blog
 
 This is tonari's blog, a static site generated with next.js and using Notion as the source of articles.
+
+See [**tonari-notion-blog-demo.web.app**](https://tonari-notion-blog-demo.web.app/) for a simple demonstration of what it looks like :).
+
+## How it works
 
 Articles are written in the form of pages in a Notion database, and this codebase then fetches them via their public API and coverts those pages into static content that is deployed to a Firebase static site.
 
