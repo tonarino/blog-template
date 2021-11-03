@@ -83,7 +83,6 @@ export async function getStaticProps({ params: { slug } }) {
 
 type OlTypes = "1" | "a" | "i";
 function getElements(blocks, level = 0): JSX.Element[] {
-  console.log(`getElements()`,blocks)
   let elements = [];
   let numberedLevels: OlTypes[] = ['1', 'a', 'i']
   let numberedListItems = [];
@@ -227,7 +226,6 @@ function getElements(blocks, level = 0): JSX.Element[] {
         elements.push(<hr key={block.id} />)
         break
       case "column_list":
-        console.log(block)
         elements.push(
           <div key={block.id} className={blogStyles.columnContainer}>
             {block.children.map((column) => (

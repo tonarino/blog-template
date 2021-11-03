@@ -5,22 +5,15 @@ import { Feed } from 'feed'
 import blogConfig from '../../blog.config.js'
 
 async function main() {
-  const postsTable = await getBlogIndex()
+  const posts = await getBlogIndex()
   const neededAuthors = new Set<string>()
 
-  const blogPosts = Object.keys(postsTable)
-    .map((slug) => {
-      const post = postsTable[slug]
-      if (post.Language !== 'English') return
-
-      post.authors = post.Authors || []
-
-      for (const author of post.authors) {
-        neededAuthors.add(author)
-      }
+  const blogPosts = posts
+    .filter(post => post.language === 'English')
+    .map((post) => {
+      neededAuthors.add(post.author)
       return post
     })
-    .filter(Boolean)
 
   const feed = new Feed({
     title: blogConfig.title,
@@ -34,13 +27,13 @@ async function main() {
   })
 
   blogPosts.forEach((post) => {
-    const link = `${blogConfig.baseUrl}${post.Slug}`
+    const link = `${blogConfig.baseUrl}${post.slug}`
     feed.addItem({
-      title: post.Page,
-      description: post.Subtitle,
+      title: post.title,
+      description: post.subtitle,
       link,
       id: link,
-      date: new Date(post.Date),
+      date: new Date(post.date?.date?.start),
     })
   })
   const outputPath = './public/index.xml'
