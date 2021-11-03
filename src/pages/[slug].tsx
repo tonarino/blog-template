@@ -49,7 +49,15 @@ export async function getStaticProps({ params: { slug } }) {
 
   const post = await getPageData(entry)
 
-  for (const block of post.blocks) {
+  const getChildren = (block) => {
+    if (block.children) {
+      return block.children.map((child) => [child, ...getChildren(child)]).flat(Infinity)
+    } else {
+      return [block]
+    }
+  }
+  const blocks = post.blocks.map((block) => getChildren(block)).flat()
+  for (const block of blocks) {
     const { type, id } = block
 
     let url = null
@@ -79,6 +87,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
   let numberedLevels: OlTypes[] = ['1', 'a', 'i']
   let numberedListItems = [];
   let bulletedListItems = [];
+  let columns = [];
   for (const block of blocks) {
     const children = block.children?.length > 0 ? getElements(block.children, level+1) : []
     if (block.type !== "numbered_list_item" && numberedListItems.length > 0) {
@@ -217,8 +226,23 @@ function getElements(blocks, level = 0): JSX.Element[] {
       case "divider":
         elements.push(<hr key={block.id} />)
         break
+      case "column_list":
+        elements.push(
+          <div key={block.id} className={blogStyles.columnContainer}>
+            {block.children.map((column) => (
+              <div className={blogStyles.column}>
+                {getElements(column.children)}
+              </div>
+            ))}
+          </div>
+        )
+        break
+      case "column":
+        // These types are taken care of in "column_list" case
+        break
       default:
         elements.push(<div key={block.id} style={{color: "red", fontWeight: "bold"}}><i>️⛔️ Unrendered block (type: {block.type})</i></div>)
+        console.log(block)
         break
     }
   }

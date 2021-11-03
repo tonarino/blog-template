@@ -179,6 +179,16 @@
   padding-right: 0.5rem;
 }
 
+.columnContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  flex: 1 1 auto;
+  padding: 0 10px;
+}
+
 @media (max-width: 600px) {
   .title {
     font-size: 1.4rem;
