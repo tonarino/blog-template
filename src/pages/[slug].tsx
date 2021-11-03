@@ -83,13 +83,13 @@ export async function getStaticProps({ params: { slug } }) {
 
 type OlTypes = "1" | "a" | "i";
 function getElements(blocks, level = 0): JSX.Element[] {
+  console.log(`getElements()`,blocks)
   let elements = [];
   let numberedLevels: OlTypes[] = ['1', 'a', 'i']
   let numberedListItems = [];
   let bulletedListItems = [];
-  let columns = [];
   for (const block of blocks) {
-    const children = block.children?.length > 0 ? getElements(block.children, level+1) : []
+    const children = block.type !== "column_list" && block.children?.length > 0 ? getElements(block.children, level+1) : []
     if (block.type !== "numbered_list_item" && numberedListItems.length > 0) {
       elements.push(<ol key={numberedListItems[0].key} type={numberedLevels[level] || "1"}>{numberedListItems}</ol>)
       numberedListItems = []
@@ -227,6 +227,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
         elements.push(<hr key={block.id} />)
         break
       case "column_list":
+        console.log(block)
         elements.push(
           <div key={block.id} className={blogStyles.columnContainer}>
             {block.children.map((column) => (
@@ -238,8 +239,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
         )
         break
       case "column":
-        // These types are taken care of in "column_list" case
-        break
+        throw new Error(`'column' type found in elements list, which should not happen.`)
       default:
         elements.push(<div key={block.id} style={{color: "red", fontWeight: "bold"}}><i>️⛔️ Unrendered block (type: {block.type})</i></div>)
         console.log(block)
