@@ -50,7 +50,7 @@ const RichTextSpan = ({ text }: RichTextProps) => {
         const Tag = annotations.code ? "code" : "span"
         const bgSpanClass = annotations?.color.endsWith('background') ? styles.bgspan : ''
         return (
-          <Tag key={idx} className={`${styles[`color_${annotations?.color}`]} ${bgSpanClass}`}>
+          <Tag key={idx} className={`${styles[`color_${annotations?.color}`] || ''} ${bgSpanClass}`}>
             {text.link
             ? (<ExtLink href={text.link.url}>{content}</ExtLink>)
             : text.content}
