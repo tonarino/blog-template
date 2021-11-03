@@ -33,7 +33,7 @@ async function main() {
       description: post.subtitle,
       link,
       id: link,
-      date: new Date(post.date?.date?.start),
+      date: new Date((post.date as any).start),
     })
   })
   const outputPath = './public/index.xml'
