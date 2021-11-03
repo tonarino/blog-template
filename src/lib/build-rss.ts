@@ -27,7 +27,7 @@ async function main() {
   })
 
   blogPosts.forEach((post) => {
-    const link = `${blogConfig.baseUrl}${post.slug}`
+    const link = `${blogConfig.baseUrl}/${post.slug}`
     feed.addItem({
       title: post.title,
       description: post.subtitle,
