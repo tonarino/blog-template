@@ -28,8 +28,15 @@ This repository is an unbranded version of our blog, presented as-is for others 
     ```bash
     NOTION_API_KEY=[secret_YOURAPIKEY]
     ```
+    
+## 3. Share the database with your integration
 
-## 3. Setup dev environment
+Your database needs to be "shared" with your integration before the notion API can access it.
+
+* Hover over your database title ("Posts"), click on "..." -> "Open as page".
+* Click "Share" on the upper right, click the text box that says "People, emails, groups, or integrations", then find your integration and select it.
+
+## 4. Setup dev environment
 
 Install [yarn](https://yarnpkg.com/) if you don't have it already, then within the root of this repository, run:
 ```
