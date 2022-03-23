@@ -2,34 +2,33 @@ import hljs from 'highlight.js'
 import { RichText } from '@notionhq/client/build/src/api-types'
 
 type CodeProps = {
-  code: RichText[];
-  language: string;
+  code: RichText[]
+  language: string
 }
 
 const Code = ({ code, language = 'javascript' }: CodeProps) => {
-  language = language.toLowerCase().replace(/\s+/g, '');
+  language = language.toLowerCase().replace(/\s+/g, '')
 
   // A hack for Notion not supporting TOML. Map BASIC to it instead...
-  if (language === 'basic') language = 'toml';
-  let plain_text = code.map((element, idx) => {
-    switch (element.type) {
-      case "text":
-        return element.plain_text
-      default:
-        console.warn("unexpected rich text item in code block", element)
-        return null
-    }
-  }).join('')
+  if (language === 'basic') language = 'toml'
+  let plain_text = code
+    .map((element, idx) => {
+      switch (element.type) {
+        case 'text':
+          return element.plain_text
+        default:
+          console.warn('unexpected rich text item in code block', element)
+          return null
+      }
+    })
+    .join('')
 
   return (
     <>
       <pre>
         <code
           dangerouslySetInnerHTML={{
-            __html: hljs.highlight(
-              plain_text,
-              { language },
-            ).value,
+            __html: hljs.highlight(plain_text, { language }).value,
           }}
         />
       </pre>

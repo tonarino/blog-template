@@ -9,7 +9,9 @@ const BlogHead = ({
 }) => {
   return (
     <Head>
-      <title>{titlePre ? `${titlePre} |` : ''} {blogConfig.title}</title>
+      <title>
+        {titlePre ? `${titlePre} |` : ''} {blogConfig.title}
+      </title>
       <meta property="og:description" content={description} />
       <meta
         property="og:title"

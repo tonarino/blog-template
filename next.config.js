@@ -7,7 +7,7 @@ module.exports = (phase, { defaultConfig }) => {
   } catch (_) {}
 
   if (!process.env.NOTION_API_KEY) {
-    throw new Error("\nNOTION_API_KEY is missing from env and is required!")
+    throw new Error('\nNOTION_API_KEY is missing from env and is required!')
   }
 
   return defaultConfig

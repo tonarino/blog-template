@@ -3,7 +3,7 @@ import { getImageFileName } from 'src/lib/image-helpers'
 import { BlogEntry } from 'src/lib/notion'
 
 type Props = {
-  post: BlogEntry;
+  post: BlogEntry
 }
 
 const CoverImage = ({ post }: Props) => {
@@ -12,9 +12,7 @@ const CoverImage = ({ post }: Props) => {
   if (!post.cover) {
     return <></>
   } else if (coverPath.endsWith('.mp4')) {
-    return (
-        <video autoPlay loop muted playsInline src={coverPath}></video>
-    )
+    return <video autoPlay loop muted playsInline src={coverPath}></video>
   } else if (coverPath.endsWith('.gif')) {
     return <img src={coverPath} className="cover" />
   } else {

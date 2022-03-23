@@ -6,7 +6,7 @@ import { DateSpan } from './rich-text'
 import blogConfig from '../../blog.config'
 
 type Props = {
-  post: BlogEntry;
+  post: BlogEntry
 }
 
 const Byline = ({ post }: Props) => {
@@ -21,11 +21,7 @@ const Byline = ({ post }: Props) => {
       )}
       <div className={styles.profileimage}>
         {post.author && (
-          <img
-            src={`/profiles/${author}.jpg`}
-            width="48"
-            height="48"
-          />
+          <img src={`/profiles/${author}.jpg`} width="48" height="48" />
         )}
       </div>
       <div className={styles.bylinetext}>
@@ -38,7 +34,9 @@ const Byline = ({ post }: Props) => {
           </div>
         )}
         {post.date && (
-          <div className={styles.posted}><DateSpan date={post.date} /></div>
+          <div className={styles.posted}>
+            <DateSpan date={post.date} />
+          </div>
         )}
       </div>
     </div>

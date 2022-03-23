@@ -3,8 +3,8 @@ import Index, { getStaticProps as indexGetStaticProps } from './index'
 export async function getStaticProps(context) {
   return indexGetStaticProps({
     lang: 'jp',
-    ...context
+    ...context,
   })
 }
 
-export default Index;
+export default Index

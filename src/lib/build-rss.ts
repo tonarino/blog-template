@@ -9,7 +9,7 @@ async function main() {
   const neededAuthors = new Set<string>()
 
   const blogPosts = posts
-    .filter(post => post.language === 'English')
+    .filter((post) => post.language === 'English')
     .map((post) => {
       neededAuthors.add(post.author)
       return post

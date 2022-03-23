@@ -19,8 +19,8 @@ Router.events.on('routeChangeStart', (url) => {
 
 Router.events.on('routeChangeComplete', () => {
   NProgress.done()
-  let countFunction = (window as any)?.goatcounter?.count;
-  if (typeof countFunction === "function") {
+  let countFunction = (window as any)?.goatcounter?.count
+  if (typeof countFunction === 'function') {
     countFunction({
       path: '/blog' + location.pathname + location.search + location.hash,
     })

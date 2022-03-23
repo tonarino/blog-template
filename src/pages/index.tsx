@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs'
 import Link from 'next/link'
 import Header from '../components/header'
 import Byline from '../components/byline'
@@ -12,8 +12,8 @@ import { BlogEntry, getBlogIndex } from '../lib/notion'
 import { fetchImage } from '../lib/image-helpers'
 
 type Props = {
-  posts: BlogEntry[];
-  lang: "English" | "Japanese";
+  posts: BlogEntry[]
+  lang: 'English' | 'Japanese'
 }
 
 export async function getStaticProps(context) {
@@ -31,7 +31,7 @@ export async function getStaticProps(context) {
         if (post.cover?.file?.url) {
           await fetchImage(fs, post.cover.file.url, post.id)
         } else {
-          console.warn("cover missing for post:", post)
+          console.warn('cover missing for post:', post)
         }
         return post
       })

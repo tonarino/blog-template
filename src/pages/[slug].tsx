@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs'
 import { useRouter } from 'next/router'
 import CoverImage from '../components/cover-image'
 import Head from '../components/head'
@@ -7,21 +7,31 @@ import Byline from '../components/byline'
 import blogStyles from '../styles/blog.module.css'
 import { BlogPost, getBlogIndex, getPageData } from '../lib/notion'
 import React, { CSSProperties, useEffect } from 'react'
-import { fetchImage, getImageFileName, getMediaBlockFile, getMediaBlockFileName } from '../lib/image-helpers'
-import { FileWithCaption, ImageBlock, VideoBlock } from '@notionhq/client/build/src/api-types'
+import {
+  fetchImage,
+  getImageFileName,
+  getMediaBlockFile,
+  getMediaBlockFileName,
+} from '../lib/image-helpers'
+import {
+  FileWithCaption,
+  ImageBlock,
+  VideoBlock,
+} from '@notionhq/client/build/src/api-types'
 import RichTextSpan from 'src/components/rich-text'
-import Code from 'src/components/code';
+import Code from 'src/components/code'
 import blogConfig from 'blog.config'
 
 type Props = {
-  post: BlogPost;
-  redirect: any;
+  post: BlogPost
+  redirect: any
 }
 
 // Enumerates all paths that will be expanded to their own static page.
 export async function getStaticPaths() {
-  const paths = (await getBlogIndex())
-      .map((blog) => ({ params: { slug: blog.slug }}))
+  const paths = (await getBlogIndex()).map((blog) => ({
+    params: { slug: blog.slug },
+  }))
   return {
     paths,
     fallback: false,
@@ -30,7 +40,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { slug } }) {
   const postsTable = await getBlogIndex()
-  const entry = postsTable.find((post) => post.slug === slug);
+  const entry = postsTable.find((post) => post.slug === slug)
 
   if (!entry) {
     console.log(`Failed to find post for slug: ${slug}`)
@@ -51,7 +61,9 @@ export async function getStaticProps({ params: { slug } }) {
 
   const getChildren = (block) => {
     if (block.children) {
-      return block.children.map((child) => [child, ...getChildren(child)]).flat(Infinity)
+      return block.children
+        .map((child) => [child, ...getChildren(child)])
+        .flat(Infinity)
     } else {
       return [block]
     }
@@ -61,9 +73,9 @@ export async function getStaticProps({ params: { slug } }) {
     const { type, id } = block
 
     let url = null
-    if (type === "image" || type === "video") {
+    if (type === 'image' || type === 'video') {
       const file = (block as ImageBlock).image || (block as VideoBlock).video
-      if (file.type === "file") {
+      if (file.type === 'file') {
         url = (file as FileWithCaption).file.url
       }
     }
@@ -81,52 +93,82 @@ export async function getStaticProps({ params: { slug } }) {
   }
 }
 
-type OlTypes = "1" | "a" | "i";
+type OlTypes = '1' | 'a' | 'i'
 function getElements(blocks, level = 0): JSX.Element[] {
-  let elements = [];
+  let elements = []
   let numberedLevels: OlTypes[] = ['1', 'a', 'i']
-  let numberedListItems = [];
-  let bulletedListItems = [];
+  let numberedListItems = []
+  let bulletedListItems = []
   for (const block of blocks) {
-    const children = block.type !== "column_list" && block.children?.length > 0 ? getElements(block.children, level+1) : []
-    if (block.type !== "numbered_list_item" && numberedListItems.length > 0) {
-      elements.push(<ol key={numberedListItems[0].key} type={numberedLevels[level] || "1"}>{numberedListItems}</ol>)
+    const children =
+      block.type !== 'column_list' && block.children?.length > 0
+        ? getElements(block.children, level + 1)
+        : []
+    if (block.type !== 'numbered_list_item' && numberedListItems.length > 0) {
+      elements.push(
+        <ol key={numberedListItems[0].key} type={numberedLevels[level] || '1'}>
+          {numberedListItems}
+        </ol>
+      )
       numberedListItems = []
     }
-    if (block.type !== "bulleted_list_item" && bulletedListItems.length > 0) {
+    if (block.type !== 'bulleted_list_item' && bulletedListItems.length > 0) {
       elements.push(<ul key={bulletedListItems[0].key}>{bulletedListItems}</ul>)
       bulletedListItems = []
     }
 
     switch (block.type) {
       case 'paragraph':
-        elements.push(<p key={block.id}><RichTextSpan text={block.paragraph.text} />{children}</p>)
+        elements.push(
+          <p key={block.id}>
+            <RichTextSpan text={block.paragraph.text} />
+            {children}
+          </p>
+        )
         break
       case 'code':
-        elements.push(<Code key={block.id} code={block.code.text} language={block.code.language} />)
+        elements.push(
+          <Code
+            key={block.id}
+            code={block.code.text}
+            language={block.code.language}
+          />
+        )
         break
       case 'callout':
-        elements.push(<div key={block.id} className="callout">
-          {block.callout.icon?.type === "emoji" && (
-            <div>{block.callout.icon.emoji}</div>
-          )}
-          <div className="text">
-            <RichTextSpan text={block.callout.text} />
+        elements.push(
+          <div key={block.id} className="callout">
+            {block.callout.icon?.type === 'emoji' && (
+              <div>{block.callout.icon.emoji}</div>
+            )}
+            <div className="text">
+              <RichTextSpan text={block.callout.text} />
+            </div>
           </div>
-        </div>)
+        )
         break
       case 'quote':
-        elements.push(<blockquote key={block.id}><RichTextSpan text={block.quote.text} /></blockquote>)
+        elements.push(
+          <blockquote key={block.id}>
+            <RichTextSpan text={block.quote.text} />
+          </blockquote>
+        )
         break
       case 'image':
       case 'video': {
         let child = null
         const mediaBlock = getMediaBlockFile(block)
         const imagePath = getMediaBlockFileName(block)
-        const last_caption_text = mediaBlock.caption ? mediaBlock.caption[mediaBlock.caption.length - 1]?.plain_text : null
-        const widthOverride = last_caption_text?.match(/\d+(%|px|vw|vh|vmin|vmax)/g) ? last_caption_text : null
+        const last_caption_text = mediaBlock.caption
+          ? mediaBlock.caption[mediaBlock.caption.length - 1]?.plain_text
+          : null
+        const widthOverride = last_caption_text?.match(
+          /\d+(%|px|vw|vh|vmin|vmax)/g
+        )
+          ? last_caption_text
+          : null
 
-        if (block.type === "image" && imagePath) {
+        if (block.type === 'image' && imagePath) {
           var image = null
           var webpImage = null
           if (/^.*\.(png|jpe?g)$/.test(imagePath)) {
@@ -136,14 +178,12 @@ function getElements(blocks, level = 0): JSX.Element[] {
 
           child = (
             <picture>
-              {webpImage && (
-                <source srcSet={webpImage} type="image/webp" />
-              )}
+              {webpImage && <source srcSet={webpImage} type="image/webp" />}
               <source srcSet={image} />
               <img src={image} className={blogStyles.postMedia} />
             </picture>
           )
-        } else if (block.type === "video" && imagePath) {
+        } else if (block.type === 'video' && imagePath) {
           child = (
             <video
               src={`images/${imagePath}`}
@@ -157,11 +197,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
           console.warn(
             `failed to work out media for block of type ${block.type}`
           )
-          child = (
-            <div style={{"color": "red"}}>
-              Media type missing.
-            </div>
-          )
+          child = <div style={{ color: 'red' }}>Media type missing.</div>
         }
 
         const figure = (
@@ -170,16 +206,24 @@ function getElements(blocks, level = 0): JSX.Element[] {
               {child}
               {mediaBlock?.caption ? (
                 <figcaption>
-                  <RichTextSpan text={mediaBlock.caption.slice(0, widthOverride && -1 || undefined)} />
+                  <RichTextSpan
+                    text={mediaBlock.caption.slice(
+                      0,
+                      (widthOverride && -1) || undefined
+                    )}
+                  />
                 </figcaption>
-              ) : ('')}
+              ) : (
+                ''
+              )}
             </figure>
             <style jsx>{`
               figure {
                 max-width: 100%;
                 width: ${widthOverride || '100%'};
               }
-              figure > :global(img), :global(video) {
+              figure > :global(img),
+              :global(video) {
                 display: block;
                 width: 100%;
                 border: none;
@@ -192,21 +236,43 @@ function getElements(blocks, level = 0): JSX.Element[] {
         break
       }
       case 'heading_1':
-        elements.push(<h1 key={block.id}><RichTextSpan text={block.heading_1.text} /></h1>)
+        elements.push(
+          <h1 key={block.id}>
+            <RichTextSpan text={block.heading_1.text} />
+          </h1>
+        )
         break
       case 'heading_2':
-        elements.push(<h2 key={block.id}><RichTextSpan text={block.heading_2.text} /></h2>)
+        elements.push(
+          <h2 key={block.id}>
+            <RichTextSpan text={block.heading_2.text} />
+          </h2>
+        )
         break
       case 'heading_3':
-        elements.push(<h3 key={block.id}><RichTextSpan text={block.heading_3.text} /></h3>)
+        elements.push(
+          <h3 key={block.id}>
+            <RichTextSpan text={block.heading_3.text} />
+          </h3>
+        )
         break
-      case "bulleted_list_item":
-        bulletedListItems.push(<li key={block.id}><RichTextSpan text={block.bulleted_list_item.text} />{children}</li>)
-        break;
-      case "numbered_list_item":
-        numberedListItems.push(<li key={block.id}><RichTextSpan text={block.numbered_list_item.text} />{children}</li>)
-        break;
-      case "to_do":
+      case 'bulleted_list_item':
+        bulletedListItems.push(
+          <li key={block.id}>
+            <RichTextSpan text={block.bulleted_list_item.text} />
+            {children}
+          </li>
+        )
+        break
+      case 'numbered_list_item':
+        numberedListItems.push(
+          <li key={block.id}>
+            <RichTextSpan text={block.numbered_list_item.text} />
+            {children}
+          </li>
+        )
+        break
+      case 'to_do':
         elements.push(
           <React.Fragment key={block.id}>
             <div>
@@ -215,17 +281,17 @@ function getElements(blocks, level = 0): JSX.Element[] {
             </div>
             {children}
             <style jsx>{`
-              input[type=checkbox][disabled]{
+              input[type='checkbox'][disabled] {
                 pointer-events: none;
               }
             `}</style>
           </React.Fragment>
         )
-        break;
-      case "divider":
+        break
+      case 'divider':
         elements.push(<hr key={block.id} />)
         break
-      case "column_list":
+      case 'column_list':
         elements.push(
           <div key={block.id} className={blogStyles.columnContainer}>
             {block.children.map((column) => (
@@ -236,16 +302,26 @@ function getElements(blocks, level = 0): JSX.Element[] {
           </div>
         )
         break
-      case "column":
-        throw new Error(`'column' type found in elements list, which should not happen.`)
+      case 'column':
+        throw new Error(
+          `'column' type found in elements list, which should not happen.`
+        )
       default:
-        elements.push(<div key={block.id} style={{color: "red", fontWeight: "bold"}}><i>️⛔️ Unrendered block (type: {block.type})</i></div>)
+        elements.push(
+          <div key={block.id} style={{ color: 'red', fontWeight: 'bold' }}>
+            <i>️⛔️ Unrendered block (type: {block.type})</i>
+          </div>
+        )
         console.log(block)
         break
     }
   }
   if (numberedListItems.length > 0) {
-    elements.push(<ol key={numberedListItems[0].key} type={numberedLevels[level] || "1"}>{numberedListItems}</ol>)
+    elements.push(
+      <ol key={numberedListItems[0].key} type={numberedLevels[level] || '1'}>
+        {numberedListItems}
+      </ol>
+    )
   }
   if (bulletedListItems.length > 0) {
     elements.push(<ul key={bulletedListItems[0].key}>{bulletedListItems}</ul>)
@@ -271,7 +347,11 @@ const Slug = ({ post, redirect }: Props) => {
     var scrolled_90 = false
 
     function countEvent(slug, title) {
-      if (!sent[slug] && window.location.href.startsWith(blogConfig.baseUrl) && typeof (window as any)?.goatcounter?.count === "function") {
+      if (
+        !sent[slug] &&
+        window.location.href.startsWith(blogConfig.baseUrl) &&
+        typeof (window as any)?.goatcounter?.count === 'function'
+      ) {
         ;(window as any)?.goatcounter?.count({
           path: `/blog${window.location.pathname}${window.location.search}/${slug}`,
           title: `${title}: ${document.title}`,
@@ -382,7 +462,10 @@ const Slug = ({ post, redirect }: Props) => {
         titlePre={post.title}
         description={post.subtitle}
         path={router.asPath}
-        ogImage={`${blogConfig.baseUrl}/images/${getImageFileName(post.cover.file.url, post.id)}.optimized.jpg`}
+        ogImage={`${blogConfig.baseUrl}/images/${getImageFileName(
+          post.cover.file.url,
+          post.id
+        )}.optimized.jpg`}
       />
       <Header compact language={post.language === 'English' ? 'en' : 'jp'} />
       <div className={blogStyles.blogContainer}>
@@ -395,9 +478,7 @@ const Slug = ({ post, redirect }: Props) => {
           <Byline post={post} />
 
           <div className={blogStyles.postContent}>
-            {elements.length === 0 && (
-              <p>This post has no content</p>
-            )}
+            {elements.length === 0 && <p>This post has no content</p>}
             {elements}
           </div>
         </div>

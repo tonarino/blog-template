@@ -1,4 +1,8 @@
-import { FileWithCaption, ImageBlock, VideoBlock } from '@notionhq/client/build/src/api-types'
+import {
+  FileWithCaption,
+  ImageBlock,
+  VideoBlock,
+} from '@notionhq/client/build/src/api-types'
 import fetch from 'node-fetch'
 
 var sharp = undefined
@@ -9,18 +13,22 @@ if (typeof window === 'undefined') {
 }
 
 export function getImageFileName(url: string, id: string): string | null {
-  const fileName = url?.split('/')?.pop().split('?')[0];
+  const fileName = url?.split('/')?.pop().split('?')[0]
   return `${id}-${fileName}`
 }
 
-export function getMediaBlockFileName(block: ImageBlock | VideoBlock): string | null {
+export function getMediaBlockFileName(
+  block: ImageBlock | VideoBlock
+): string | null {
   return getImageFileName(getMediaBlockFile(block)?.file.url, block.id)
 }
 
-export function getMediaBlockFile(block: ImageBlock | VideoBlock): FileWithCaption | null {
-  if (block.type === "image" && block.image.type === "file") {
+export function getMediaBlockFile(
+  block: ImageBlock | VideoBlock
+): FileWithCaption | null {
+  if (block.type === 'image' && block.image.type === 'file') {
     return block.image
-  } else if (block.type === "video" && block.video.type === "file") {
+  } else if (block.type === 'video' && block.video.type === 'file') {
     return block.video
   } else {
     return null
@@ -33,7 +41,7 @@ export async function fetchImage(fs, url: string, id: string): Promise<string> {
     fs.mkdirSync('public/images')
   }
 
-  const fileName = getImageFileName(url, id);
+  const fileName = getImageFileName(url, id)
   const filePath = `public/images/${fileName}`
   // Don't download images if they're already there.
   if (!fs.existsSync(filePath)) {

@@ -26,9 +26,9 @@ app.post('/', urlencodedParser, async (request: any, response: any) => {
 
   switch (text.substr(0, 4).toLowerCase()) {
     case 'stag':
-      return deploy(request, response, "staging")
+      return deploy(request, response, 'staging')
     case 'prod':
-      return deploy(request, response, "prod")
+      return deploy(request, response, 'prod')
     default:
       return response.send({
         response_type: 'in_channel',
