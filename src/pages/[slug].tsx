@@ -305,7 +305,7 @@ function getElements(blocks, level = 0): JSX.Element[] {
         break
       case 'equation':
         elements.push(
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          <div key={block.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             dangerouslySetInnerHTML={{
               __html: katex.renderToString(block.equation.expression, {
                 throwOnError: false
