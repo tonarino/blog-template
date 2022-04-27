@@ -36,6 +36,7 @@ const BlogHead = ({
         href="/favicon-16x16.png"
       />
       <link rel="stylesheet" type="text/css" href="/nprogress.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css" integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossOrigin="anonymous" />
       <link
         rel="preload"
         href="/fonts/ibm-plex-serif-v8-latin-regular.woff2"
