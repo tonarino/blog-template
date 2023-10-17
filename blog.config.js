@@ -10,7 +10,7 @@ module.exports = {
   goatCounterUrl: '',
 
   // The footer/copyright statement
-  footer: 'Ⓐ 2021 who cares',
+  footer: `Ⓐ ${new Date().getFullYear()} who cares`,
 
   // The main blog's Open Graph image. These must me fully qualified URLs, ex. 'https://mydomain.com/og_image.jpg'
   ogImage: '',
