@@ -21,6 +21,7 @@ import {
 import RichTextSpan from 'src/components/rich-text'
 import Code from 'src/components/code'
 import blogConfig from 'blog.config'
+import katex from 'katex'
 
 type Props = {
   post: BlogPost
@@ -300,6 +301,17 @@ function getElements(blocks, level = 0): JSX.Element[] {
               </div>
             ))}
           </div>
+        )
+        break
+      case 'equation':
+        elements.push(
+          <div key={block.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            dangerouslySetInnerHTML={{
+              __html: katex.renderToString(block.equation.expression, {
+                throwOnError: false
+              })
+            }}
+          />
         )
         break
       case 'column':
